@@ -29,7 +29,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'lab3app',
+    'rest_framework'
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 30,  # Adjust based on your needs
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

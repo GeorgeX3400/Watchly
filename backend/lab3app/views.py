@@ -6,7 +6,7 @@ from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import  login, logout
-from .forms import ContactForm, CustomAuthenticationForm, PromotionForm, WatchForm, CustomUserCreationForm, WatchFilterForm
+from .forms import *
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash, authenticate
@@ -23,7 +23,10 @@ from django.http import JsonResponse
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 import logging
-
+from rest_framework.response import Response
+from .serializers import *
+from rest_framework.views import APIView
+from rest_framework import status
 
 logging = logging.getLogger('django')
 
@@ -127,6 +130,34 @@ def contact_view(request):
 
     form = ContactForm()
     return render(request, 'contact.html', {'form': form})
+
+class ContactFormView(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = ContactFormSerializer(data=request.data)
+        if serializer.is_valid():
+            # Process the form data here, e.g., save it to the database or send an email
+            data = serializer.validated_data
+            birthdate = data.pop("birthdate")
+            today = datetime.today()
+            age_years = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
+            age_months = (today.month - birthdate.month + 12) % 12
+            age = f"{age_years} years and {age_months} months"
+
+            message = data["message"].replace("\n", " ")
+            message = " ".join(message.split())
+            data["message"] = message
+            data["age"] = age
+            del data["confirm_email"]
+            # create a json file and save the contact form in a "messages" folder
+            timestamp = int(datetime.timestamp(datetime.now()))
+            filename = f"messages/message_{timestamp}.json"
+            os.makedirs("messages", exist_ok=True)
+            with open(filename, "w") as f:
+                json.dump(data, f, indent=4)
+            
+            # You can do other operations like saving the message, etc.
+            return Response({"status": "success", "message": "Message sent!"}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @permission_required('lab3app.add_watch', raise_exception=True)
 def add_watch(request):
