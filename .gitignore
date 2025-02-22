@@ -1,0 +1,36 @@
+# Python-related files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.swp
+*.swo
+
+# Django-specific files
+db.sqlite3
+/static/
+*.log
+*.sql
+
+# Environment variables file
+.env
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Virtual environment
+venv/
+env/
+
+# VS Code settings
+.vscode/
+
+# PyCharm settings
+.idea/
+
+# Node modules (if using npm/yarn for frontend)
+node_modules/
+
+#additional files
+integration.todo

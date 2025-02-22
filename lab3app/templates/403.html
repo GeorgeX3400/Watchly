@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eroare 403</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 50px;
+        }
+        h1 {
+            color: #dc3545;
+        }
+        p {
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    {% if user.is_authenticated %}
+        <p>Salut {{ user.username }}</p>
+    {% else %}
+        <p>Salut preastimate anonim</p>
+    {% endif %}
+
+    <!-- Titlu eroare -->
+    <h1>{{ titlu|default:"Eroare 403" }}</h1>
+
+    <!-- Mesaj personalizat -->
+    <p>{{ mesaj_personalizat|default:"Accesul la aceasta resursa nu este permis." }}</p>
+</body>
+</html>

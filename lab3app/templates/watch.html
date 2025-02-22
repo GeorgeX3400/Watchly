@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'styles.css' %}">
+    </head>
+    <body>
+        <a href = {% url 'watches' %}> Back to watch list</a>
+        
+        <h2>{{watch.name }}</h2>
+        <img id='watch-photo'src="{% static 'wristwatch.png' %}">
+        <p class='feature'>Price: ${{ watch.price }}</p>
+        <p>{{watch.description}}</p>
+        <div id='watch-description'>
+        <h4>Features:</h4>
+        {% for feature in features %}
+            <p class='feature'>{{feature.name}}</p>
+            <p class='description'> ➡ {{feature.description}}</p>
+        {% endfor %}
+        </div>
+    </body>
+</html>

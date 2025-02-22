@@ -1,0 +1,12 @@
+<!-- email_template.html -->
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>Bun venit, {{ user.first_name }} {{ user.last_name }}!</h1>
+    <p>Username: {{ user.username }}</p>
+    <p>Te rugam sa iti confirmi e-mailul:</p>
+    <a href="{{ base_url }}/confirm_mail/{{ user.cod }}/">Confirma E-mail</a>
+    <br>
+    <img src="{% static 'wristwatch.png' %}">
+</body>
+</html>

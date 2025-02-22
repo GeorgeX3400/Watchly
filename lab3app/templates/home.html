@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pagina Home</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <div id="top-bar">
+        <div id='logo'>
+          <img width=100 height=100 src="{% static 'wristwatch.png' %}">
+          <a>Watchly</a>
+        </div>
+      <a href="{% url 'watches' %}">Products</a>
+      <a>Profile</a>
+      <a href="{% url 'contact' %}">Contact</a>
+      
+      {% if request.user.is_authenticated %}
+
+      <button>Sign Out </button>
+
+      {% else %}
+
+      <button>
+        <a href='{% url 'login' %}'>Sign In</a>
+      </button>
+
+      {% endif %}
+
+      <button id="cart-button">
+        <p>🛒</p>
+      </button>
+    </div>
+
+    {% if request.user.is_authenticated %}
+      <h2>Bine ai venit, {{ user_data.username }}!</h2>
+      <h2>Profilul tau</h2>
+      <ul>
+          <li><strong>Data nasterii:</strong> {{ user_data.date_of_birth }}</li>
+          <li><strong>Numar de telefon:</strong> {{ user_data.phone_number }}</li>
+          <li><strong>Adresa:</strong> {{ user_data.address }}</li>
+          <li><strong>Biografie:</strong> {{ user_data.bio }}</li>
+          <li><strong>Abonament Premium:</strong> {{ user_data.has_premium }}</li>
+      </ul>
+      <a href="{% url 'change_password' %}">Schimba Parola</a>
+    {% else %}
+        <h2>Welcome, dear client!</h2>
+        <p> I suggest you log in so you can buy some watches! :)</p>
+        <a href="{% url 'login' %}">Log in here</a>
+    {% endif %}
+    <div id='cart'></div>
+    <script src="{% static 'buy_buttons.js' %}"></script>
+</body>
+</html>

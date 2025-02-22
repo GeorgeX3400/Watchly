@@ -1,0 +1,227 @@
+input, select  {
+    border-radius: 6px;
+    border: 2px solid rgb(35, 35, 35);
+
+}
+
+p, a, h2, h3, h4 {
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(34, 34, 34);
+}
+
+
+button {
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: rgb(231, 231, 231);
+    font-weight: 500;
+    padding: 3px 4px;
+    z-index: 5;
+}
+
+
+
+ul {
+    padding-left: 10%;
+    padding-right: 10%;
+    list-style-type: none;
+}
+
+body > ul > li {
+    font-family: Arial, Helvetica, sans-serif;
+    border: 3px solid rgb(77, 255, 151);
+    padding: 5px;
+    text-decoration: none;
+    margin-bottom: 4px;
+}
+
+.space {
+    height: 5px;
+}
+
+/* filter list toggle */
+
+.filters {
+    display: none;
+    max-height: 0;
+}
+
+.expanded {
+    display: block;
+    max-height: 400px; 
+}
+
+#filter-button {
+    z-index: 10;
+}
+
+
+
+#top-bar {
+    height: 130px;
+    width: 98%;
+    padding-right: 10px;
+    background-color: rgb(213, 255, 240);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 5px solid rgb(77, 255, 151)
+}
+
+#top-bar > a, #top-bar > button > a {
+    text-decoration: none;
+    padding: 10px;
+    font-weight: 600;
+    color:rgb(6, 187, 6);
+    text-shadow: 2px;
+}
+#top-bar > button {
+
+    background-color: rgb(72, 244, 69);
+    border: 3px solid rgb(4, 187, 4);
+    padding: 2px 13px;
+    border-radius: 13px;
+    
+}
+
+#logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#logo > a {
+    font-size: 24px;
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+}
+
+/* login/register pages */
+#auth-bar {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-top: 10px;
+    border: 5px solid rgb(77, 255, 151);
+    background-color: rgb(213, 255, 240);
+
+}
+
+#auth-bar > * {
+    padding: 10px 20px;
+}
+
+
+#login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    background-color: aquamarine;
+    border: 3px solid rgb(4, 187, 4);
+    max-width: fit-content;
+    border-radius: 20px;
+    padding: 20px;
+    margin-top: 50px;
+}
+
+#register-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: aquamarine;
+    border: 3px solid rgb(4, 187, 4);
+    max-width: fit-content;
+    border-radius: 20px;
+    padding: 20px;
+    margin-top: 50px;
+}
+
+#register-container > form > * {
+    padding: 3px 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#register-container > form > button {
+    padding: 2px;
+}
+
+
+/* watch page style */
+
+#watch-photo {
+    padding: 10px;
+    margin-left: 20px;
+    border: 3px solid black;
+    border-radius: 5px;
+}
+
+.feature {
+    font-weight: 600;
+    margin-left: 5px;
+}
+
+.description {
+    margin-left: 15px;
+}
+
+#watch-description {
+    margin-left: 4%;
+    margin-right: 4%;
+    padding: 0.5% 3%;
+    background-color: aquamarine;
+    border: 3px solid rgb(4, 187, 4);
+    border-radius: 20px;
+}
+
+/* cart style (main page container + checkout page)*/
+
+#cart {
+    display:none;
+    position: fixed;
+    right: 20px;
+    top: 100px;
+    background-color: aquamarine;
+    border: 5px solid rgb(77, 255, 151);
+    width: 40%;
+}
+
+#close-cart {
+    background-color: red;
+    color: white;
+    border: 2px solid crimson;
+    border-radius: 30%;
+    z-index: 10;
+}
+
+#cart-items {
+    margin-top: 10px;
+}
+
+.cart-item {
+    border: 3px solid rgb(77, 255, 151);
+    border-radius: 20px;
+    margin-bottom: 5px;
+    padding-left: 5px;
+    max-width: 300px;
+}
+
+/* contact page: */
+#contact-container { 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    background-color: aquamarine;
+    border: 3px solid rgb(4, 187, 4);
+    border-radius: 20px;
+    padding: 20px;
+    max-width: fit-content;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+

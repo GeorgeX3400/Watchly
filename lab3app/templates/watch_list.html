@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watch List</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <div id="top-bar">
+      <div id='logo'>
+        <img width=100 height=100 src="{% static 'wristwatch.png' %}">
+        <a>Watchly</a>
+      </div>
+      <a>Products</a>
+      <a href="{% url 'home' %}">Profile</a>
+      <a href="{% url 'contact' %}">Contact</a>
+      
+      {% if request.user.is_authenticated %}
+
+      <button>
+        <a href='{% url 'logout' %}'>Sign Out</a>
+      </button>
+
+      {% else %}
+
+      <button>
+        <a href='{% url 'login' %}'>Sign In</a>
+      </button>
+
+      {% endif %}
+
+      <button id="cart-button">
+        <p>🛒</p>
+      </button>
+    </div>
+
+    {% if request.user.is_authenticated %}
+     <script>
+        const randomNumber = Math.random();
+      
+        if (randomNumber < 0.3) {
+          const offer = `
+            <div>
+              <a href="{% url 'oferta' %}">SPECIAL OFFER, JUST FOR YOU!!!</a>
+            </div>
+          `;
+          document.body.insertAdjacentHTML('beforeend', offer);
+        }
+    </script> 
+    {% endif %}
+    <h2>Filter Watches</h2>
+    <button id="filter-button">Toggle Filters</button>
+    <div class="filters">
+    <form method="get">
+        {{ form.as_p }}
+        <button type="submit">Apply Filters</button>
+    </form>
+  </div>
+    <h2>Watch Results</h2>
+    <ul>
+        {% for watch in watches %}
+            <li>
+              <a href= {% url 'watch' watch.id  %}>{{ watch.name }}</a> 
+              <p> ${{ watch.price }} </p>
+                <button 
+                  data-id="{{ watch.id }}" 
+                  data-name="{{ watch.name }}" 
+                  data-price="{{ watch.price }}" 
+                  data-stock="{{ watch.stock }}" 
+                  class="add_to_cart">Add to Cart
+                </button>
+            </li>
+            
+        {% empty %}
+            <li>No watches found.</li>
+        {% endfor %}
+    </ul>
+    <div id="notifications"></div> 
+    <div id='cart'>
+      
+    </div>
+    <script src="{% static 'buy_buttons.js' %}"></script>
+</body>
+</html>

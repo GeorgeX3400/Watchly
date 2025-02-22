@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart Page</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <a href={% url 'watches' %}>Back to Watch List</a> 
+    <h2>Cart Page</h2>
+
+    <select id="sort-option">
+        <option value="name">Sort by Name</option>
+        <option value="price">Sort by Price</option>
+    </select>
+
+    <div id="cart-items"></div>
+
+    <p id="total-items"></p>
+    <p id="total-price"></p>
+    <button id='buy-button'>Buy</button>
+    <script src="{% static 'cart_page.js' %}"></script>
+</body>
+</html>
+
