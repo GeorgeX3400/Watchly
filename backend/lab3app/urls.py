@@ -10,8 +10,8 @@ sitemaps = {
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("contact", views.ContactFormView.as_view, name='contact'),
-    path('watches/', views.watch_list, name='watches'),
+    path("contact/", views.ContactFormView.as_view(), name='contact'),
+    path('watches/', views.WatchListView.as_view(), name='watches'),  
     path('watches/<int:id>', views.watch_view, name='watch'),
     path('add_watch', views.add_watch),
     path('register', views.register_view, name='register'),

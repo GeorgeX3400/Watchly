@@ -2,34 +2,39 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import ContactPage  from './pages/ContactPage';
+import ProfilePage from './pages/ProfilePage'; 
+import WatchesPage from './pages/WatchesPage';
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentPage, setCurrentPage] = useState('watches')
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+  const handlePage = (e) => {
+    setCurrentPage(e.target.value);
+  }
+  
+
+  return <>
+    <div id='topbar'>
+      <div id='logo'>
+        <h2>Watchly</h2>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div id='pagesList'>
+        <button value='watches' onClick={handlePage}>All Watches</button>
+        <button value='profile' onClick={handlePage}>Profile</button>
+        <button value='contact' onClick={handlePage}>Contact</button>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+
+      <div id='buttons'>
+        <button>Log In</button>
+        <button> Cart </button>
+      </div>
+    </div>
+      {
+        currentPage === 'watches' ? <WatchesPage></WatchesPage> : (currentPage === 'profile' ? <ProfilePage></ProfilePage> : <ContactPage></ContactPage>)
+      }
+  </>
+  ;
 }
-
 export default App

@@ -48,11 +48,11 @@ class WatchFeatureSerializer(serializers.ModelSerializer):
         fields = ['watch', 'feature']
 
 class WatchSerializer(serializers.ModelSerializer):
-    brand = BrandSerializer(read_only=True)
-    movement_type = MovementTypeSerializer(read_only=True)
-    warranty = WarrantySerializer(read_only=True)
-    materials = MaterialSerializer(many=True, read_only=True)
-    features = FeatureSerializer(many=True, read_only=True)
+    brand = BrandSerializer(read_only=True, allow_null=True)
+    movement_type = MovementTypeSerializer(read_only=True, allow_null=True)
+    warranty = WarrantySerializer(read_only=True, allow_null=True)
+    materials = MaterialSerializer(many=True, read_only=True, allow_null=True)
+    features = FeatureSerializer(many=True, read_only=True, allow_null=True)
 
     class Meta:
         model = Watch

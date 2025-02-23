@@ -27,7 +27,9 @@ from rest_framework.response import Response
 from .serializers import *
 from rest_framework.views import APIView
 from rest_framework import status
-
+from rest_framework.renderers import JSONRenderer
+from rest_framework.parsers import JSONParser
+import io
 logging = logging.getLogger('django')
 
 def mesaj_trimis(request):
@@ -131,9 +133,23 @@ def contact_view(request):
     form = ContactForm()
     return render(request, 'contact.html', {'form': form})
 
+
+class WatchListView(APIView):
+    def get(self, request):
+        watches = Watch.objects.all()
+        serializer = WatchSerializer(watches, many=True)
+
+        return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
+
 class ContactFormView(APIView):
     def post(self, request, *args, **kwargs):
-        serializer = ContactFormSerializer(data=request.data)
+        print(type(request.body)) 
+        stream = io.BytesIO(request.body)
+        data = JSONParser().parse(stream)
+        print(data)
+        serializer = ContactFormSerializer(data=data)
+        print(serializer)
+        print(serializer.is_valid())
         if serializer.is_valid():
             # Process the form data here, e.g., save it to the database or send an email
             data = serializer.validated_data
