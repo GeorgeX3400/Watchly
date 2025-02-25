@@ -142,3 +142,14 @@ class ContactFormSerializer(serializers.Serializer):
 
         return data
 
+
+class WatchFilterSerializer(serializers.Serializer):
+    name = serializers.CharField(required=False, allow_blank=True)
+    brand = serializers.PrimaryKeyRelatedField(queryset=Brand.objects.all(), required=False, allow_null=True)
+    min_price = serializers.DecimalField(required=False, allow_null=True, min_value=0, max_digits=10, decimal_places=2)
+    max_price = serializers.DecimalField(required=False, allow_null=True, min_value=0, max_digits=10, decimal_places=2)
+    min_water_resistance = serializers.IntegerField(required=False, allow_null=True, min_value=0)
+    movement_type = serializers.PrimaryKeyRelatedField(queryset=MovementType.objects.all(), required=False, allow_null=True)
+    warranty = serializers.PrimaryKeyRelatedField(queryset=Warranty.objects.all(), required=False, allow_null=True)
+    material = serializers.PrimaryKeyRelatedField(queryset=Material.objects.all(), required=False, allow_null=True)
+    feature = serializers.PrimaryKeyRelatedField(queryset=Feature.objects.all(), required=False, allow_null=True)

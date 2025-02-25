@@ -137,8 +137,49 @@ def contact_view(request):
 class WatchListView(APIView):
     def get(self, request):
         watches = Watch.objects.all()
-        serializer = WatchSerializer(watches, many=True)
+        if request.body:
+            stream = io.BytesIO(request.body)
+            data = JSONParser().parse(stream)
+            filterSerializer = WatchFilterSerializer(data=data)
+            if filterSerializer.is_valid():   
+                name = filterSerializer.validated_data.get('name')
+                brand = filterSerializer.validated_data.get('brand')
+                min_price = filterSerializer.validated_data.get('min_price')
+                max_price = filterSerializer.validated_data.get('max_price')
+                min_water_resistance = filterSerializer.validated_data.get('min_water_resistance')
+                movement_type = filterSerializer.validated_data.get('movement_type')
+                warranty = filterSerializer.validated_data.get('warranty')
+                material = filterSerializer.validated_data.get('material')
+                feature = filterSerializer.validated_data.get('feature') 
+                if name:
+                    watches = watches.filter(name__icontains=name)
+                if brand:
+                    watches = watches.filter(brand=brand)
 
+                if min_price:
+                    watches = watches.filter(price__gte=min_price)
+
+                if max_price:
+                    watches = watches.filter(price__lte=max_price)
+
+                if min_water_resistance:
+                    watches = watches.filter(water_resistance__gte=min_water_resistance)
+
+                if movement_type:
+                    watches = watches.filter(movement_type=movement_type)
+
+                if warranty:
+                    watches = watches.filter(warranty=warranty)
+
+                if material:
+                    watches = watches.filter(materials__id=material.id)
+
+                if feature:
+                    watches = watches.filter(features__id=feature.id)
+
+            else: 
+                return JsonResponse(filterSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer = WatchSerializer(watches, many=True)
         return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
 
 class ContactFormView(APIView):
