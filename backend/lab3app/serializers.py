@@ -153,3 +153,30 @@ class WatchFilterSerializer(serializers.Serializer):
     warranty = serializers.PrimaryKeyRelatedField(queryset=Warranty.objects.all(), required=False, allow_null=True)
     material = serializers.PrimaryKeyRelatedField(queryset=Material.objects.all(), required=False, allow_null=True)
     feature = serializers.PrimaryKeyRelatedField(queryset=Feature.objects.all(), required=False, allow_null=True)
+
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=30, required=True)
+    password = serializers.CharField(write_only=True, required=True)
+    stay_logged_in = serializers.BooleanField(required=True)
+
+    def validate(self, data):
+        username = data.get('username')
+        password = data.get('password')
+        
+        if not username or not password:
+            raise serializers.ValidationError("Both username and password are required.")
+
+        return data
+
+class CustomUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'username', 'email', 'password', 'phone_number', 'address', 'bio', 'has_premium']
+        extra_kwargs = {'password': {'write_only':True}}
+
+    def create(self, validated_data):
+        user = CustomUser.objects.create_user(**validated_data)
+        return user
+    
+

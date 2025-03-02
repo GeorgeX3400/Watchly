@@ -20,7 +20,7 @@ class CustomUserCreationForm(UserCreationForm):
     date_of_birth = forms.DateField(
         required=True,
         widget=forms.DateInput(attrs={'type': 'date'}),
-        help_text="Introduceți data nașterii (format YYYY-MM-DD)."
+        help_text="fil in your birth date (format YYYY-MM-DD)."
     )
     phone_number = forms.CharField(
         required=False,

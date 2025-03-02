@@ -27,14 +27,16 @@ from rest_framework.response import Response
 from .serializers import *
 from rest_framework.views import APIView
 from rest_framework import status
-from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 import io
-logging = logging.getLogger('django')
+from django.middleware.csrf import get_token
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect
 
+
+logging = logging.getLogger('django')
 def mesaj_trimis(request):
     return render("ok")
-
 def index(request):
     return render("good")
 
@@ -134,6 +136,7 @@ def contact_view(request):
     return render(request, 'contact.html', {'form': form})
 
 
+
 class WatchListView(APIView):
     def get(self, request):
         watches = Watch.objects.all()
@@ -181,6 +184,13 @@ class WatchListView(APIView):
                 return JsonResponse(filterSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
         serializer = WatchSerializer(watches, many=True)
         return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
+
+
+class WatchView(APIView):
+    def get(self, request, id):
+        query = get_object_or_404(Watch, id=id)
+        serializer = WatchSerializer(query)
+        return JsonResponse(serializer.data, status=status.HTTP_200_OK)
 
 class ContactFormView(APIView):
     def post(self, request, *args, **kwargs):
@@ -248,10 +258,19 @@ def custom_403_view(request, exception):
 #REGISTER/LOGIN:
 #
 
+#csrf-token:
+
+class CSRFTokenView(APIView):
+    
+    def get(self, request):
+        csrftoken = get_token(request)
+        return JsonResponse({'token': csrftoken}, status=status.HTTP_200_OK)  
 
 def register_view(request):
     if request.method == 'POST':
+        print(request.POST)
         form = CustomUserCreationForm(request.POST)
+        print(form)
         if form.is_valid():
             user = form.save(commit=False)
             user.cod = str(uuid.uuid4())
@@ -273,6 +292,18 @@ def register_view(request):
     else:
         form = CustomUserCreationForm()
     return render(request, 'register.html', {'form': form})
+
+
+class RegisterView(APIView):
+    @method_decorator(csrf_protect)
+    def post(self, request,):
+        
+        
+        registerData = CustomUserSerializer(data=request.data)
+        if registerData.is_valid():
+            CustomUserSerializer.create(registerData, registerData.validated_data)
+            return JsonResponse({'message': 'Register successful.'}, status=status.HTTP_201_CREATED)
+        return JsonResponse({'error': registerData.errors}, status=status.HTTP_400_BAD_REQUEST)        
 
 
 def login_view(request):
@@ -297,6 +328,27 @@ def login_view(request):
         form = CustomAuthenticationForm()
 
     return render(request, 'login.html', {'form': form})
+
+class LoginView(APIView):
+    @method_decorator(csrf_protect)    
+    def post(self, request):
+        stream = io.BytesIO(request.body)
+        data = JSONParser().parse(stream)
+        serializer = LoginSerializer(data=data)
+        if serializer.is_valid():
+            username = serializer.validated_data.get('username')
+            password = serializer.validated_data.get('password')
+
+            print(serializer.validated_data.get('stay_logged_in'))
+
+            user = authenticate(request, username=username, password=password)
+            if user:
+                login(request, user)
+                return Response({"message": "Login successful"}, status=status.HTTP_200_OK)
+            else:
+                return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
 def confirm_mail_view(request, cod):
     user = get_object_or_404(CustomUser, cod=cod)

@@ -4,7 +4,7 @@ import './../App.css'
 import ContactPage  from './ContactPage';
 import ProfilePage from './ProfilePage'; 
 import WatchesPage from './WatchesPage';
-
+import {Link} from 'react-router-dom';
 
 function MainPage() {
   const [currentPage, setCurrentPage] = useState('watches')
@@ -26,8 +26,12 @@ function MainPage() {
       </div>
 
       <div id='buttons'>
-        <button>Log In</button>
-        <button> Cart </button>
+        <button> 
+          <Link to='/login'>Log In</Link>
+          </button>
+        <button>
+          <Link>Cart</Link> 
+          </button>
       </div>
     </div>
       {

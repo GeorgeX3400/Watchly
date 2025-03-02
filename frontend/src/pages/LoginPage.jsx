@@ -17,6 +17,18 @@ function LoginPage()  {
         }));
     };
 
+
+    const login = () => {
+      const loginResponse = fetch('http://localhost:8000/login'.
+        method= "POST",
+        body=credentials
+      )
+      .then(response => response.json());
+      if(loginResponse.ok){
+        
+      }
+    }
+
     return (
         <>
         <div className="auth-card">
