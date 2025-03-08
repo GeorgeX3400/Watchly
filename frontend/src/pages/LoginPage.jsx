@@ -30,7 +30,7 @@ function LoginPage()  {
     }
 
     return (
-        <>
+        <div className="auth-container">
         <div className="auth-card">
         <h2 className="auth-title">Login</h2>
         <form>
@@ -55,7 +55,7 @@ function LoginPage()  {
             />
           </div>
           <label>Stay Logged In</label>
-          <input
+          <input type="checkbox"
           name='stay_logged_in'
           checked={false}
           onChange={handleChange}
@@ -72,7 +72,7 @@ function LoginPage()  {
           </Link>
           </p>
           </div>
-        </>
+        </div>
     );
 
 }

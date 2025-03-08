@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 import FilterSidebar from './FilterSidebar';
-
+import {Link} from 'react-router-dom';
 
 
 
@@ -41,10 +41,12 @@ function WatchesPage() {
         <div id="container">
           <div className="grid">
             {watchData.map((watch) => (
-              <div className="card" key={watch.id}>
-                <h2 className="name">{watch.name}</h2>
-                <p className="price">${watch.price}</p>
-              </div>
+              <Link to={`/watches/${watch.id}`}>
+                <div className="card" key={watch.id}>
+                  <h2 className="name">{watch.name}</h2>
+                  <p className="price">${watch.price}</p>
+                </div>
+              </Link>
             ))}
           </div>
         </div>

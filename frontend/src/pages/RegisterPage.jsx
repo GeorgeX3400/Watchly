@@ -1,49 +1,103 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
+import { Link, Navigate } from "react-router-dom";
+import {useState} from 'react';
+import '../assets/utils';
 function RegisterPage() {
+  const [data, setData] = useState({
+    'username': '',
+    'password': '',
+    'email': '',
+    'first_name': '',
+    'last_name': '',
+    'phone_number': '',
+    'address': '',
+    'bio': '',
+    'has_premium': false
+  })
+  const [redirect, setRedirect] = useState(false);
+
+  function handleChange(e) {
+      const {name, value} = e.target
+      setData((prevData) => ({
+        ...prevData,
+        [name]: value
+      }));
+  }
+
+  async function registerUser() {
+    try {
+      const response = await fetch('http://localhost:8000/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCookie('csrf-token'), 
+        },
+        body: JSON.stringify(data),
+      });
+  
+      if (response.ok) {
+        setRedirect(true);
+      } else {
+        const errorData = await response.json();
+        console.error('Registration failed:', errorData);
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+    }
+  }
+
+  if(redirect) {
+    return <Navigate to='/login/'/>
+  }
+
   return (
     <div className="auth-container">
-      <div className="auth-card">
         <h2 className="auth-title">Register</h2>
         <form>
           <div className="form-group">
-            <label htmlFor="name">Full Name</label>
+            <label >First Name</label>
             <input
               type="text"
-              id="name"
-              name="name"
-              placeholder="Enter your full name"
+              name="first_name"
+              onChange={handleChange}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label >Last Name</label>
+            <input
+              type="text"
+              name="last_name"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <label >Email</label>
             <input
               type="email"
-              id="email"
+              
               name="email"
+              onChange={handleChange}
               placeholder="Enter your email"
             />
           </div>
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label >Password</label>
             <input
               type="password"
-              id="password"
               name="password"
+              onChange={handleChange}
               placeholder="Create a password"
             />
           </div>
           <div className="form-group">
-            <label htmlFor="confirm-password">Confirm Password</label>
+            <label>Confirm Password</label>
             <input
               type="password"
-              id="confirm-password"
               name="confirm-password"
               placeholder="Confirm your password"
             />
           </div>
-          <button type="submit" className="auth-button">
+          <button className="auth-button" onClick={registerUser}>
             Register
           </button>
         </form>
@@ -53,7 +107,6 @@ function RegisterPage() {
             Login here
           </Link>
         </p>
-      </div>
     </div>
   );
 }

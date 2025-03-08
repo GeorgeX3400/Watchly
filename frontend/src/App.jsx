@@ -7,6 +7,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainPage from './pages/MainPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import WatchPage from './pages/WatchPage';
+
+
 
 function App() {
   const [currentPage, setCurrentPage] = useState('watches')
@@ -21,6 +24,7 @@ function App() {
       <Route path='/' element={<MainPage/>}></Route>
       <Route path='/login' element={<LoginPage/>}></Route>
       <Route path='/register' element={<RegisterPage/>}></Route>
+      <Route path='/watches/:id' element={<WatchPage/>}></Route>
     </Routes>
   </Router>
   ;
